@@ -1,15 +1,21 @@
-import React from 'react';
+import React, {useContext, useState } from 'react';
 import { useLoaderData, useParams } from 'react-router';
+import { BookContext } from '../../Context/BookContext';
 
 const BookDetails = () => {
     const {bookId:booksParamsId} =useParams();
     console.log(booksParamsId,'bookId');
     const books =useLoaderData();
-        console.log(books,"books");
+        // console.log(books,"books");
         const expectedBook =books.find((book) => book.bookId == Number(booksParamsId));
-        console.log("expectedBook",expectedBook);
+        // console.log("expectedBook",expectedBook);
         const {bookId,bookName,author,review,totalPages,rating,category,tags,publisher,yearOfPublishing} =expectedBook;
+
+        const {handleMarkAsRead,handleAddToList} =useContext(BookContext);
+
+        
     return (
+        //  Book detailes card desingh
        <div className="grid grid-cols-2 bg-base-100 shadow-sm container mx-auto mt-10">
   <figure className='w-full flex items-center justify-center bg-gray-300 rounded-xl'>
     <img
@@ -41,8 +47,8 @@ const BookDetails = () => {
        </div>
     </div>
     <div className='flex items-center gap-3'>
-          <button className="btn">Read</button>
-          <button className="btn btn-primary">Wishlist</button>
+          <button className="btn" onClick={ () => handleMarkAsRead (expectedBook)}> Mark as Read</button>
+          <button className="btn btn-primary" onClick={() => handleAddToList (expectedBook)}>Add to Wishlist</button>
        </div>
   </div>
 </div>
